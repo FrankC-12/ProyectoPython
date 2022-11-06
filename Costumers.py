@@ -3,4 +3,4 @@ class Costumers:
         self.name = name
         self.password = password
     def mostrar(self):
-        print(f"Bienvenido {self.name}")
+        print(f"Gracias por registrate {self.name}")
