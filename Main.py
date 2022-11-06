@@ -127,6 +127,8 @@ def sales():
         data.close()
     #--------------------Aqui inicio sesión si el cliente esta en la base de datos----------------
     elif option == "2":
+        total = 0
+        buy_list = []
         data = open("Costumers.txt", "r")
         content = data.read()
         data.close()
@@ -218,7 +220,74 @@ def sales():
                     print(f"----------{i}----------")
                     print(x)
                     i += 1
-                    
+            while True:
+                buy = input("Indique el número de disco que desea comprar: ")
+                while not buy.isnumeric() or int(buy)-1 not in range(0,len(discs)):
+                    print("Ingresa un número de disco válido")
+                    buy = input("Indique el número de disco que desea comprar: ")
+
+                amount = input("Cantidad que desea comprar: ")
+                while not amount.isnumeric() or int(amount) <= 0:
+                    print("Elija una cantidad válida")
+                    amount = input("Cantidad que desea comprar: ")
+                
+                if sorted_by == "1":
+                    buy_list.append(sorted_alpha[int(buy)-1])
+                    sorted_alpha[int(buy)-1]["price"] = sorted_alpha[int(buy)-1]["price"].replace("\n","")
+                    total += int(amount) * int(sorted_alpha[int(buy)-1]["price"])
+                    print(buy_list)
+                    print(total)
+
+                option = input("Desea realizar otra compra: \n1.Sí \n2.No \n> ")
+                while not option.isnumeric() or int(option) not in range(1,3):
+                    print("Introduzca una opción valida")
+                    option = input("Desea realizar otra compra: \n1.Sí \n2.No \n> ")
+                if option != "1":
+                    break
+            while True:
+                print(buy_list)
+                check = input("Selecciones: \n1.Finalizar compra \n2.Eliminar disco \n3.> ")
+                while not check.isnumeric() or int(check) not in range(1,3):
+                    print("Elija una opción válida")
+                    check = input("Selecciones: \n1.Finalizar compra \n2.Eliminar disco \n> ")
+
+                if check == "1":
+                    i = 1
+                    for x in buy_list:
+                        print("----------CHECKOUT----------")
+                        print(f"-----{i}-----")
+                        disc = Discs(x["id"],x["title"],x["artist"],x["year"],x["cost"],x["price"])
+                        disc.mostrar()
+                        i += 1
+                    print(f"Monto total a pagar: {total}$")
+                else:
+                    i = 1
+                    for x in buy_list:
+                        print(f"-----{i}-----")
+                        print(x)
+                        i += 1
+
+                    delete = input("Ingrese el numero del articulo a elminar: ")
+                    while not delete.isnumeric() or int(delete) - 1 not in range(0,len(buy_list)):
+                        print("Ingrese un número de artículo válido")
+                        delete = input("Ingrese el numero del articulo a elminar: ")
+
+                    buy_list.pop(int(delete)-1)
+                    total -= buy_list[int(delete)-1]["price"]
+                    print(f"Articulo eliminado número {delete}")
+                    print()
+                    i = 1
+                    for x in buy_list:
+                        print(f"-----{i}-----")
+                        print(x)
+                        i += 1
+
+
+            
+
+            
+                
+     
 
 discs = []
 
