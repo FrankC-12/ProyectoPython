@@ -1,2 +1,3 @@
 Antonella,jefa
 Luis,empleado
+Juan, empleado
