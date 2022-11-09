@@ -15,7 +15,7 @@ class Discs:
         data = open("Database.txt", "a")
         data.write(f"{self.id},{self.title},{self.artist},{self.year},{self.cost},{self.price},{self.gender},{self.amount}\n")
         data.close()
-        print("Disco agregado a la base de datos")
+        print("Actualizada la base de datos")
 
         
 

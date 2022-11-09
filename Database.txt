@@ -1,2 +1,2 @@
-4803,Tetrix,Jeeiph,2017,20,100,Trap,2
-0150,Tekken,Adso Alejandro,2016,30,500,Trap,2
+6354,A,B,2022,30,200,Trap,2
+8101,D,E,2011,20,300,Trap,2

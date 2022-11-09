@@ -118,7 +118,7 @@ def management(discs):
                     disc = Discs(discs[i]["id"],discs[i]["title"],discs[i]["artist"],discs[i]["year"],discs[i]["cost"],discs[i]["price"],discs[i]["gender"],discs[i]["amount"])
                     disc.database()       
                 data.close()
-        option = input("Desea: \n1.Continuar \n2.Salir \n> ")
+        option = input("Desea: \n1.Realizar otra operación \n2.Salir \n> ")
         while not option.isnumeric() or int(option) not in range(1,3):
             print("Introduzca una opcion valida")
             option = input("1.Continuar \n2.Salir \n> ")
@@ -250,10 +250,27 @@ def sales():
                         amount_1 = input("Cantidad que desea comprar: ")
                     
                     total_1 += int(amount_1) * int(sorted_alpha[int(buy)-1]["price"])
-                    print(total_1)
-                    buy_list.append(sorted_alpha[int(buy)-1])
-                    sorted_alpha[int(buy)-1]["amount"] = int(sorted_alpha[int(buy)-1]["amount"].replace("\n","")) - int(amount_1)
-                    buy_list[int(buy)-1]["amount"] = amount_1
+                    buy_disc = {}
+                    buy_disc["id"]= sorted_alpha[int(buy)-1]["id"]
+                    buy_disc["title"]= sorted_alpha[int(buy)-1]["title"]
+                    buy_disc["artist"]= sorted_alpha[int(buy)-1]["artist"]
+                    buy_disc["year"] = sorted_alpha[int(buy)-1]["year"]
+                    buy_disc["cost"]= sorted_alpha[int(buy)-1]["cost"]
+                    buy_disc["price"]= sorted_alpha[int(buy)-1]["price"]
+                    buy_disc["gender"]= sorted_alpha[int(buy)-1]["gender"]
+                    buy_disc["amount"]= amount_1
+                    
+                    buy_list.append(buy_disc)
+
+                    print(buy_list)
+                    print(discs)
+
+                    for i in range(0,len(discs)):
+                        if discs[i]["id"] == buy_disc["id"]:
+                            discs[i]["amount"] = int(discs[i]["amount"].replace("\n", ""))
+                            discs[i]["amount"] -= int(amount_1)
+                    print(discs)
+
 
                 elif sorted_by == "2":
                     print("------------------Catálogo en orden de año de lanzamiento-----------------")
@@ -299,46 +316,50 @@ def sales():
                     True
                 else:
                     break
+        
+        print("----------Carrito de compras----------")
+        i = 1
+        for x in buy_list:
+            print(f"{i}.{x}")
+            i += 1
 
         while True:
-            print(buy_list)
-            check = input("Selecciones: \n1.Finalizar compra \n2.Eliminar disco \n3.> ")
-            while not check.isnumeric() or int(check) not in range(1,3):
+            option = input("Desea: \n1.Finalizar compra \n2.Eliminar algún disco \n> ")
+            while not option.isnumeric() or int(option) not in range(1,3):
                 print("Elija una opción válida")
-                check = input("Selecciones: \n1.Finalizar compra \n2.Eliminar disco \n> ")
+                option = input("Desea: \n1.Finalizar compra \n2.Eliminar algún disco \n> ")
 
-            if check == "1":
-                i = 0
-                for x in buy_list:
-                    print(f"-----{i}-----")
-                    buy_disc = Discs(x["id"],x["title"],x["artist"],x["year"],x["cost"],x["price"],x["gender"],amount_1)
-                    buy_disc.mostrar()
-                    total_d = int(amount_1) * int(x["price"])
-                    print(f"Monto: {total_d}")
-                    i+=1
-                print(f"Monto total a pagar: {total_1}$")
+            if option == "1":
+                print("----------CHECKOUT----------")
+                for i in range(0,len(buy_list)):
+                    disc = Discs(buy_list[i]["id"],buy_list[i]["title"],buy_list[i]["artist"],buy_list[i]["year"],buy_list[i]["cost"],buy_list[i]["price"],buy_list[i]["gender"],buy_list[i]["amount"],)
+                    disc.mostrar()
+                    print(f"Total a pagar: {total_1}")
+                
+                data = open("Database.txt", "w")
+                data.close()
+
+                for i in range(0,len(discs)):
+                    disc = Discs(discs[i]["id"],discs[i]["title"],discs[i]["artist"],discs[i]["year"],discs[i]["cost"],discs[i]["price"],discs[i]["gender"],discs[i]["amount"],)
+                    disc.database()
+                break
             else:
-                i = 1
-                for x in buy_list:
-                    print(f"-----{i}-----")
-                    print(x)
-                    i += 1
-
-                delete = input("Ingrese el numero del articulo a elminar: ")
+                for i in range(0,len(buy_list)):
+                    print(f"{i+1}.{buy_list[i]}")
+                
+                delete = input("Indique el número del disco a elminar: ")
                 while not delete.isnumeric() or int(delete) - 1 not in range(0,len(buy_list)):
-                    print("Ingrese un número de artículo válido")
-                    delete = input("Ingrese el numero del articulo a elminar: ")
+                    print("Error, elija un disco válido")
+                    delete = input("Indique el número del disco a elminar: ")
 
+                total_1 -= int(buy_list[int(delete)-1]["price"]) * int(buy_list[int(delete)-1]["amount"])
                 buy_list.pop(int(delete)-1)
-                total -= buy_list[int(delete)-1]["price"]
-                print(f"Articulo eliminado número {delete}")
-                print()
-                i = 1
-                for x in buy_list:
-                    print(f"-----{i}-----")
-                    print(x)
-                    i += 1
-            break
+                print("DISCO ELIMINADO")
+                print(buy_list)
+
+
+        
+                
 
 
 
