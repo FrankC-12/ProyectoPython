@@ -1,4 +1,2 @@
-0006,En Soledad,Micro ,2021,20,600,Trap,0
-8431,Ojitos Lindos,Bad Bunny,2020,20,300,Trap,3
-8384,Tus Ojos No Me Ven,Joey Montana,2011,30,200,Merengue,3
-
+5428,En Soledad,Micro ,2022,20,300,Trap,0
+5837,Ojitos Lindos,Bad Bunny,2022,20,500,Trap,4
